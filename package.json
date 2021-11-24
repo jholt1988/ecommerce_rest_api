@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/jholt1988/ecommerce_rest_api#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
   }
 }
