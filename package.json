@@ -1,0 +1,27 @@
+{
+  "name": "ecommerce_rest_api",
+  "version": "1.0.0",
+  "description": "An REST e-commerce api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jholt1988/ecommerce_rest_api.git"
+  },
+  "keywords": [
+    "api",
+    "ecommerce",
+    "REST"
+  ],
+  "author": "Jordan A Holt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jholt1988/ecommerce_rest_api/issues"
+  },
+  "homepage": "https://github.com/jholt1988/ecommerce_rest_api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
