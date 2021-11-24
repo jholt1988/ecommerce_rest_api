@@ -1,3 +1,5 @@
+const {PORT, DB, SESSION_SECRET} = require ('./.env');
+
 module.exports = {
     PORT: process.env.PORT,
     DB: {
