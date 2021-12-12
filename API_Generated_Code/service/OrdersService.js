@@ -31,7 +31,6 @@ exports.getUserOrderByOrderId = function(userId,orderId) {
   "cartId" : "{}",
   "shippingAddress2" : "shippingAddress2",
   "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
   "orderItems" : [ {
     "total" : 5,
     "quantity" : 5,
@@ -91,7 +90,6 @@ exports.updateOrderItem = function(body,orderItemId) {
   "cartId" : "{}",
   "shippingAddress2" : "shippingAddress2",
   "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
   "orderItems" : [ {
     "total" : 5,
     "quantity" : 5,
@@ -130,7 +128,6 @@ exports.updateOrderItem = function(body,orderItemId) {
   "cartId" : "{}",
   "shippingAddress2" : "shippingAddress2",
   "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
   "orderItems" : [ {
     "total" : 5,
     "quantity" : 5,

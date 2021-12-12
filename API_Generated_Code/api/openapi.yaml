@@ -22,7 +22,7 @@ paths:
       requestBody:
         description: the new userName
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/User'
         required: true
@@ -50,9 +50,17 @@ paths:
       requestBody:
         description: userName of user logging in
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: User's username
+                password:
+                  type: string
+                  description: User password
+                  format: password
         required: true
       responses:
         "200":
@@ -113,6 +121,13 @@ paths:
         explode: false
         schema:
           $ref: '#/components/schemas/User/properties/username'
+      requestBody:
+        description: the new userName
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
       responses:
         "200":
           description: 200 Success-User Updated
@@ -146,11 +161,8 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              type: string
-              x-content-type: application/json
+        schema:
+          type: string
       responses:
         "200":
           description: 200 - Orders Found
@@ -159,7 +171,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/OrderModel'
+                  $ref: '#/components/schemas/UserOrdersModel'
                 x-content-type: application/json
       x-swagger-router-controller: Users
   /users/{userId}/orders/{orderId}:
@@ -176,19 +188,15 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User/properties/id'
+        schema:
+          $ref: '#/components/schemas/User/properties/id'
       - name: orderId
         in: path
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderModel/properties/id'
+        schema:
+          $ref: '#/components/schemas/OrderModel/properties/id'
       responses:
         "200":
           description: 200 - Order Found
@@ -239,19 +247,17 @@ paths:
         required: true
         style: form
         explode: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product/properties/id'
+        schema:
+          $ref: '#/components/schemas/Product/properties/id'
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Product'
         required: true
       responses:
         "202":
-          description: 202 - Item removed to inventory
+          description: 202 - Item Updated
           content:
             application/json:
               schema:
@@ -277,7 +283,7 @@ paths:
       operationId: addInventoryItem
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Product'
       responses:
@@ -312,13 +318,11 @@ paths:
         required: true
         style: form
         explode: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Product/properties/id'
+        schema:
+          $ref: '#/components/schemas/Product/properties/id'
       responses:
         "202":
-          description: 202 - Item delete to inventory
+          description: 202 - Item deleted from inventory
         "404":
           description: 404 - Invalid entry
           content:
@@ -346,13 +350,10 @@ paths:
         required: false
         style: form
         explode: true
-        content:
-          application/json:
-            schema:
-              type: string
-              enum:
-              - active
-              x-content-type: application/json
+        schema:
+          type: string
+          enum:
+          - active
       responses:
         "200":
           description: 299 - Cart Found
@@ -411,13 +412,14 @@ paths:
       summary: gets an empty cart object
       description: starts a new user cart
       operationId: createCartByUserName
-      requestBody:
-        description: user cart to fetch
-        content:
-          application/json:
-            schema:
-              $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/parameters/userNameParam
+      parameters:
+      - name: userName
+        in: query
         required: true
+        style: form
+        explode: true
+        schema:
+          type: string
       responses:
         "200":
           description: 200 - Ok
@@ -445,10 +447,8 @@ paths:
         required: true
         style: form
         explode: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Cart/properties/id'
+        schema:
+          $ref: '#/components/schemas/Cart/properties/id'
       responses:
         "200":
           description: 200 - cart deleted
@@ -512,22 +512,16 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              type: string
-              x-content-type: application/json
+        schema:
+          type: string
       - name: cartId
         in: query
         description: id of cart to load cart-itmes
         required: true
         style: form
         explode: true
-        content:
-          application/json:
-            schema:
-              type: integer
-              x-content-type: application/json
+        schema:
+          type: integer
       responses:
         "200":
           description: 202 - cart-items found and loaded into                   cart
@@ -583,22 +577,16 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              type: string
-              x-content-type: application/json
+        schema:
+          type: string
       - name: cartId
         in: query
         description: id of cart to be delete
         required: true
         style: form
         explode: true
-        content:
-          application/json:
-            schema:
-              type: integer
-              x-content-type: application/json
+        schema:
+          type: integer
       responses:
         "200":
           description: 200 - cart deleted
@@ -648,11 +636,8 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              type: integer
-              x-content-type: application/json
+        schema:
+          type: integer
       responses:
         "200":
           description: 200 - item added
@@ -679,11 +664,8 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              type: integer
-              x-content-type: application/json
+        schema:
+          type: integer
       responses:
         "200":
           description: 200 - item added
@@ -738,10 +720,8 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderItemModel/properties/id'
+        schema:
+          $ref: '#/components/schemas/OrderItemModel/properties/id'
       requestBody:
         content:
           application/json:
@@ -776,10 +756,8 @@ paths:
         required: true
         style: simple
         explode: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderItemModel/properties/id'
+        schema:
+          $ref: '#/components/schemas/OrderItemModel/properties/id'
       responses:
         "200":
           description: 200 - Success
@@ -935,18 +913,18 @@ components:
           type: string
           format: date-time
       example:
-        total: 5
+        total: 1
         created: 2000-01-23T04:56:07.000+00:00
         modified: 2000-01-23T04:56:07.000+00:00
         id: 1
         cartItems:
-        - productId: 1
-          cartId: 6
+        - productId: 6
+          cartId: 0
           id: 1
-        - productId: 1
-          cartId: 6
+        - productId: 6
+          cartId: 0
           id: 1
-        userid: 0
+        userid: userid
     CartItem:
       required:
       - cartId
@@ -962,8 +940,8 @@ components:
         productId:
           $ref: '#/components/schemas/Product/properties/id'
       example:
-        productId: 1
-        cartId: 6
+        productId: 6
+        cartId: 0
         id: 1
     OrderModel:
       required:
@@ -1021,7 +999,7 @@ components:
         cartId: "{}"
         shippingAddress2: shippingAddress2
         shippingAddress1: shippingAddress1
-        userId: "{}"
+        userId: null
         orderItems:
         - total: 5
           quantity: 5
@@ -1155,6 +1133,81 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/OrderModel'
+      example:
+        orders:
+        - city: city
+          cartId: "{}"
+          shippingAddress2: shippingAddress2
+          shippingAddress1: shippingAddress1
+          userId: null
+          orderItems:
+          - total: 5
+            quantity: 5
+            productId: "{}"
+            orderId: "{}"
+            price: "{}"
+            id: 1
+            productName: "{}"
+          - total: 5
+            quantity: 5
+            productId: "{}"
+            orderId: "{}"
+            price: "{}"
+            id: 1
+            productName: "{}"
+          zipcode: 6
+          total: 2
+          id: 0
+          state: state
+          complete: false
+          paymentInfo:
+            zipcode: 3
+            recieptId: 9
+            cardNum: cardNum
+            total: 2
+            orderId: null
+            cardType: Visa
+            id: 7
+            expDate: 2000-01-23
+            status: Approved
+          status: Approved
+        - city: city
+          cartId: "{}"
+          shippingAddress2: shippingAddress2
+          shippingAddress1: shippingAddress1
+          userId: null
+          orderItems:
+          - total: 5
+            quantity: 5
+            productId: "{}"
+            orderId: "{}"
+            price: "{}"
+            id: 1
+            productName: "{}"
+          - total: 5
+            quantity: 5
+            productId: "{}"
+            orderId: "{}"
+            price: "{}"
+            id: 1
+            productName: "{}"
+          zipcode: 6
+          total: 2
+          id: 0
+          state: state
+          complete: false
+          paymentInfo:
+            zipcode: 3
+            recieptId: 9
+            cardNum: cardNum
+            total: 2
+            orderId: null
+            cardType: Visa
+            id: 7
+            expDate: 2000-01-23
+            status: Approved
+          status: Approved
+        userId: "{}"
     ErrorModel:
       required:
       - code

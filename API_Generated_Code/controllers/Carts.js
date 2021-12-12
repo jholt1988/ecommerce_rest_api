@@ -23,8 +23,8 @@ module.exports.createCartByUserId = function createCartByUserId (req, res, next,
     });
 };
 
-module.exports.createCartByUserName = function createCartByUserName (req, res, next) {
-  Carts.createCartByUserName()
+module.exports.createCartByUserName = function createCartByUserName (req, res, next, userName) {
+  Carts.createCartByUserName(userName)
     .then(function (response) {
       utils.writeJson(res, response);
     })

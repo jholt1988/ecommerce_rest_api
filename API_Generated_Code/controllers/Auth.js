@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var Auth = require('../service/AuthService');
 
-module.exports.registerUser = function registerUser (req, res, next, body) {
-  Auth.registerUser(body)
+module.exports.registerUser = function registerUser (req, res, next) {
+  Auth.registerUser()
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.registerUser = function registerUser (req, res, next, body) {
     });
 };
 
-module.exports.userLogin = function userLogin (req, res, next, body) {
-  Auth.userLogin(body)
+module.exports.userLogin = function userLogin (req, res, next) {
+  Auth.userLogin()
     .then(function (response) {
       utils.writeJson(res, response);
     })

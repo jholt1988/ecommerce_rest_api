@@ -3,8 +3,8 @@
 var utils = require('../utils/writer.js');
 var Store = require('../service/StoreService');
 
-module.exports.addInventoryItem = function addInventoryItem (req, res, next, body) {
-  Store.addInventoryItem(body)
+module.exports.addInventoryItem = function addInventoryItem (req, res, next) {
+  Store.addInventoryItem()
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.getAllInventoryItems = function getAllInventoryItems (req, res, n
     });
 };
 
-module.exports.updateInventoryId = function updateInventoryId (req, res, next, body, inventoryId) {
-  Store.updateInventoryId(body, inventoryId)
+module.exports.updateInventoryId = function updateInventoryId (req, res, next, inventoryId) {
+  Store.updateInventoryId(inventoryId)
     .then(function (response) {
       utils.writeJson(res, response);
     })

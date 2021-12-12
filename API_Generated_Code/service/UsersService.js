@@ -49,7 +49,6 @@ exports.getUserOrderByOrderId = function(userId,orderId) {
   "cartId" : "{}",
   "shippingAddress2" : "shippingAddress2",
   "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
   "orderItems" : [ {
     "total" : 5,
     "quantity" : 5,
@@ -104,83 +103,163 @@ exports.getUserOrders = function(userId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "city" : "city",
-  "cartId" : "{}",
-  "shippingAddress2" : "shippingAddress2",
-  "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
-  "orderItems" : [ {
-    "total" : 5,
-    "quantity" : 5,
-    "productId" : "{}",
-    "orderId" : "{}",
-    "price" : "{}",
-    "id" : 1,
-    "productName" : "{}"
-  }, {
-    "total" : 5,
-    "quantity" : 5,
-    "productId" : "{}",
-    "orderId" : "{}",
-    "price" : "{}",
-    "id" : 1,
-    "productName" : "{}"
-  } ],
-  "zipcode" : 6,
-  "total" : 2,
-  "id" : 0,
-  "state" : "state",
-  "complete" : false,
-  "paymentInfo" : {
-    "zipcode" : 3,
-    "recieptId" : 9,
-    "cardNum" : "cardNum",
+  "orders" : [ {
+    "city" : "city",
+    "cartId" : "{}",
+    "shippingAddress2" : "shippingAddress2",
+    "shippingAddress1" : "shippingAddress1",
+    "orderItems" : [ {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    }, {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    } ],
+    "zipcode" : 6,
     "total" : 2,
-    "cardType" : "Visa",
-    "id" : 7,
-    "expDate" : "2000-01-23",
+    "id" : 0,
+    "state" : "state",
+    "complete" : false,
+    "paymentInfo" : {
+      "zipcode" : 3,
+      "recieptId" : 9,
+      "cardNum" : "cardNum",
+      "total" : 2,
+      "cardType" : "Visa",
+      "id" : 7,
+      "expDate" : "2000-01-23",
+      "status" : "Approved"
+    },
     "status" : "Approved"
-  },
-  "status" : "Approved"
+  }, {
+    "city" : "city",
+    "cartId" : "{}",
+    "shippingAddress2" : "shippingAddress2",
+    "shippingAddress1" : "shippingAddress1",
+    "orderItems" : [ {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    }, {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    } ],
+    "zipcode" : 6,
+    "total" : 2,
+    "id" : 0,
+    "state" : "state",
+    "complete" : false,
+    "paymentInfo" : {
+      "zipcode" : 3,
+      "recieptId" : 9,
+      "cardNum" : "cardNum",
+      "total" : 2,
+      "cardType" : "Visa",
+      "id" : 7,
+      "expDate" : "2000-01-23",
+      "status" : "Approved"
+    },
+    "status" : "Approved"
+  } ],
+  "userId" : "{}"
 }, {
-  "city" : "city",
-  "cartId" : "{}",
-  "shippingAddress2" : "shippingAddress2",
-  "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
-  "orderItems" : [ {
-    "total" : 5,
-    "quantity" : 5,
-    "productId" : "{}",
-    "orderId" : "{}",
-    "price" : "{}",
-    "id" : 1,
-    "productName" : "{}"
-  }, {
-    "total" : 5,
-    "quantity" : 5,
-    "productId" : "{}",
-    "orderId" : "{}",
-    "price" : "{}",
-    "id" : 1,
-    "productName" : "{}"
-  } ],
-  "zipcode" : 6,
-  "total" : 2,
-  "id" : 0,
-  "state" : "state",
-  "complete" : false,
-  "paymentInfo" : {
-    "zipcode" : 3,
-    "recieptId" : 9,
-    "cardNum" : "cardNum",
+  "orders" : [ {
+    "city" : "city",
+    "cartId" : "{}",
+    "shippingAddress2" : "shippingAddress2",
+    "shippingAddress1" : "shippingAddress1",
+    "orderItems" : [ {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    }, {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    } ],
+    "zipcode" : 6,
     "total" : 2,
-    "cardType" : "Visa",
-    "id" : 7,
-    "expDate" : "2000-01-23",
+    "id" : 0,
+    "state" : "state",
+    "complete" : false,
+    "paymentInfo" : {
+      "zipcode" : 3,
+      "recieptId" : 9,
+      "cardNum" : "cardNum",
+      "total" : 2,
+      "cardType" : "Visa",
+      "id" : 7,
+      "expDate" : "2000-01-23",
+      "status" : "Approved"
+    },
     "status" : "Approved"
-  },
-  "status" : "Approved"
+  }, {
+    "city" : "city",
+    "cartId" : "{}",
+    "shippingAddress2" : "shippingAddress2",
+    "shippingAddress1" : "shippingAddress1",
+    "orderItems" : [ {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    }, {
+      "total" : 5,
+      "quantity" : 5,
+      "productId" : "{}",
+      "orderId" : "{}",
+      "price" : "{}",
+      "id" : 1,
+      "productName" : "{}"
+    } ],
+    "zipcode" : 6,
+    "total" : 2,
+    "id" : 0,
+    "state" : "state",
+    "complete" : false,
+    "paymentInfo" : {
+      "zipcode" : 3,
+      "recieptId" : 9,
+      "cardNum" : "cardNum",
+      "total" : 2,
+      "cardType" : "Visa",
+      "id" : 7,
+      "expDate" : "2000-01-23",
+      "status" : "Approved"
+    },
+    "status" : "Approved"
+  } ],
+  "userId" : "{}"
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

@@ -5,10 +5,9 @@
  * Operation to register a new user
  * creates a new user object/record
  *
- * body User the new userName
  * returns User
  **/
-exports.registerUser = function(body) {
+exports.registerUser = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -37,10 +36,9 @@ exports.registerUser = function(body) {
  * Operation To Login A User
  * Logins In A Registered User
  *
- * body User userName of user logging in
  * returns User
  **/
-exports.userLogin = function(body) {
+exports.userLogin = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

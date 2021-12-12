@@ -5,10 +5,9 @@
  * Adds a new inventory object to database
  * Adds new inventory item
  *
- * body Product  (optional)
  * returns Product
  **/
-exports.addInventoryItem = function(body) {
+exports.addInventoryItem = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -76,11 +75,10 @@ exports.getAllInventoryItems = function() {
  * updates/modifies inventory object in database
  * updates/modifies inventory item
  *
- * body Product 
  * inventoryId Product/properties/id 
  * returns Product
  **/
-exports.updateInventoryId = function(body,inventoryId) {
+exports.updateInventoryId = function(inventoryId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

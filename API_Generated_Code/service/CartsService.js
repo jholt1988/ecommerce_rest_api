@@ -12,20 +12,20 @@ exports.addCartItems = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -47,20 +47,20 @@ exports.createCartByUserId = function(userId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -75,26 +75,27 @@ exports.createCartByUserId = function(userId) {
  * gets an empty cart object
  * starts a new user cart
  *
+ * userName String 
  * returns Cart
  **/
-exports.createCartByUserName = function() {
+exports.createCartByUserName = function(userName) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -120,7 +121,6 @@ exports.createOrder = function(body) {
   "cartId" : "{}",
   "shippingAddress2" : "shippingAddress2",
   "shippingAddress1" : "shippingAddress1",
-  "userId" : "{}",
   "orderItems" : [ {
     "total" : 5,
     "quantity" : 5,
@@ -204,20 +204,20 @@ exports.getActiveCart = function(cart status) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -240,20 +240,20 @@ exports.getActiveCartByUserId = function(userId,cart status) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -276,20 +276,20 @@ exports.loadCartItemsByUserId = function(userId,cartId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -312,20 +312,20 @@ exports.loadCartItemsByUserName = function(userName,cartId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "total" : 5,
+  "total" : 1,
   "created" : "2000-01-23T04:56:07.000+00:00",
   "modified" : "2000-01-23T04:56:07.000+00:00",
   "id" : 1,
   "cartItems" : [ {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   }, {
-    "productId" : 1,
-    "cartId" : 6,
+    "productId" : 6,
+    "cartId" : 0,
     "id" : 1
   } ],
-  "userid" : 0
+  "userid" : "userid"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -347,8 +347,8 @@ exports.removeCartItem = function(cartItemId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "productId" : 1,
-  "cartId" : 6,
+  "productId" : 6,
+  "cartId" : 0,
   "id" : 1
 };
     if (Object.keys(examples).length > 0) {
@@ -371,8 +371,8 @@ exports.updateCartItem = function(cartItemId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "productId" : 1,
-  "cartId" : 6,
+  "productId" : 6,
+  "cartId" : 0,
   "id" : 1
 };
     if (Object.keys(examples).length > 0) {
