@@ -1,0 +1,1190 @@
+openapi: 3.0.0
+info:
+  title: CommerceApi
+  description: "An API for a online retail shop to allow users order items, track\
+    \ orders, and track inventory"
+  contact:
+    name: Jordan A Holt
+    email: Jordanh316@gmail.com
+  version: "1.5"
+servers:
+- url: https://localhost:3000
+security:
+- BasicAuth: []
+paths:
+  /auth/register:
+    post:
+      tags:
+      - auth
+      summary: Operation to register a new user
+      description: creates a new user object/record
+      operationId: registerUser
+      requestBody:
+        description: the new userName
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: 200 User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: 404 User not created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      x-swagger-router-controller: Auth
+  /auth/login:
+    post:
+      tags:
+      - auth
+      summary: Operation To Login A User
+      description: Logins In A Registered User
+      operationId: userLogin
+      requestBody:
+        description: userName of user logging in
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: 200 Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: 404 Error. Please check credentials and try again
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      x-swagger-router-controller: Auth
+  /users/{username}:
+    get:
+      tags:
+      - users
+      summary: Find user by userName
+      description: Returns a user based on userName
+      operationId: getUserByUserName
+      parameters:
+      - name: username
+        in: path
+        description: user's username
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/User/properties/username'
+      responses:
+        "200":
+          description: 200 Success-User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "404":
+          description: 404 Failed-User Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+      x-swagger-router-controller: Users
+    put:
+      tags:
+      - users
+      summary: Modifies a user object
+      description: Updates a user object
+      operationId: updateUser
+      parameters:
+      - name: username
+        in: path
+        description: user's username
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/User/properties/username'
+      responses:
+        "200":
+          description: 200 Success-User Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: 400 Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+        "401":
+          description: 401 UNAUTHORIZED- You Must Be Logged In To Complete Request'
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotAuthorized
+      x-swagger-router-controller: Users
+  /users/{userId}/orders:
+    get:
+      tags:
+      - users
+      summary: Get a list of user orders by userId
+      description: Get a collection of user order
+      operationId: getUserOrders
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              type: string
+              x-content-type: application/json
+      responses:
+        "200":
+          description: 200 - Orders Found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderModel'
+                x-content-type: application/json
+      x-swagger-router-controller: Users
+  /users/{userId}/orders/{orderId}:
+    get:
+      tags:
+      - users
+      - orders
+      summary: Get a single order
+      description: Get a single order object
+      operationId: getUserOrderByOrderId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User/properties/id'
+      - name: orderId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderModel/properties/id'
+      responses:
+        "200":
+          description: 200 - Order Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderModel'
+        "400":
+          description: 400 Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Users
+  /store/inventory:
+    get:
+      tags:
+      - store
+      summary: Get a complete list of items in inventory
+      description: Get a complete list of inventoryItem objects
+      operationId: getAllInventoryItems
+      responses:
+        "200":
+          description: 200 - Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+                x-content-type: application/json
+        "400":
+          description: 400 Invalid Request
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Store
+    put:
+      tags:
+      - store
+      summary: updates/modifies inventory object in database
+      description: updates/modifies inventory item
+      operationId: updateInventoryId
+      parameters:
+      - name: inventoryId
+        in: query
+        required: true
+        style: form
+        explode: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+        required: true
+      responses:
+        "202":
+          description: 202 - Item removed to inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description: 404 - Invalid entry
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotFound
+        "500":
+          description: 500 - OOPS!
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/InternalError
+      x-swagger-router-controller: Store
+    post:
+      tags:
+      - store
+      summary: Adds a new inventory object to database
+      description: Adds new inventory item
+      operationId: addInventoryItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "202":
+          description: 202 - Item added to inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description: 404 - Invalid entry
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotFound
+        "500":
+          description: 500 - OOPS!
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotAuthorized
+      x-swagger-router-controller: Store
+    delete:
+      tags:
+      - store
+      summary: removes inventory object in database
+      description: deletes inventory item
+      operationId: deleteInventoryItem
+      parameters:
+      - name: inventoryId
+        in: query
+        required: true
+        style: form
+        explode: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product/properties/id'
+      responses:
+        "202":
+          description: 202 - Item delete to inventory
+        "404":
+          description: 404 - Invalid entry
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotFound
+        "500":
+          description: 500 - OOPS!
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/InternalError
+      x-swagger-router-controller: Store
+  /carts/user:
+    get:
+      tags:
+      - carts
+      summary: get user's active cart
+      description: gets current user's active cart
+      operationId: getActiveCart
+      parameters:
+      - name: cart status
+        in: query
+        description: get the cart with the active status
+        required: false
+        style: form
+        explode: true
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+              - active
+              x-content-type: application/json
+      responses:
+        "200":
+          description: 299 - Cart Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "404":
+          description: 404 - Cart Not Found
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+    put:
+      tags:
+      - carts
+      summary: loads cart-items in cart
+      description: loads cart-items object into cart objects
+      operationId: loadCartItemsByUserName
+      parameters:
+      - name: userName
+        in: query
+        description: user cart to fetch
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/parameters/userNameParam
+      - name: cartId
+        in: query
+        description: id of cart to load cart-itmes
+        required: true
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/Cart/properties/id'
+      responses:
+        "200":
+          description: 202 - cart-items found and loaded into cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "404":
+          description: 404 - cart-items not found and/or loaded                  into
+            cart
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+    post:
+      tags:
+      - carts
+      summary: gets an empty cart object
+      description: starts a new user cart
+      operationId: createCartByUserName
+      requestBody:
+        description: user cart to fetch
+        content:
+          application/json:
+            schema:
+              $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/parameters/userNameParam
+        required: true
+      responses:
+        "200":
+          description: 200 - Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "401":
+          description: 401 - You are not authorized to complete this task
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotAuthorized
+      x-swagger-router-controller: Carts
+    delete:
+      tags:
+      - carts
+      summary: deletes user's current cart
+      description: clears cart-items from cart and deletes cart
+      operationId: deleteCartById
+      parameters:
+      - name: cartId
+        in: query
+        description: id of cart to be delete
+        required: true
+        style: form
+        explode: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart/properties/id'
+      responses:
+        "200":
+          description: 200 - cart deleted
+        "500":
+          description: 500 - internal server error
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+  /carts/{userId}:
+    get:
+      tags:
+      - carts
+      summary: get user's active cart
+      description: gets current user's active cart
+      operationId: getActiveCartByUserId
+      parameters:
+      - name: userId
+        in: path
+        description: user cart to fetch
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: cart status
+        in: query
+        description: get the cart with the active status
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - active
+      responses:
+        "200":
+          description: 299 - Cart Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "404":
+          description: 404 - Cart Not Found
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+    put:
+      tags:
+      - carts
+      summary: loads cart-items in cart
+      description: loads cart-items object into cart objects
+      operationId: loadCartItemsByUserId
+      parameters:
+      - name: userId
+        in: path
+        description: userName of owner of cart
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              type: string
+              x-content-type: application/json
+      - name: cartId
+        in: query
+        description: id of cart to load cart-itmes
+        required: true
+        style: form
+        explode: true
+        content:
+          application/json:
+            schema:
+              type: integer
+              x-content-type: application/json
+      responses:
+        "200":
+          description: 202 - cart-items found and loaded into                   cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "404":
+          description: 404 - cart-items not found and/or loaded into cart
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+    post:
+      tags:
+      - carts
+      summary: gets an empty cart object
+      description: starts a new user cart
+      operationId: createCartByUserId
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: 200 - Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "401":
+          description: 401 - You are not authorized to complete this task
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotAuthorized
+      x-swagger-router-controller: Carts
+    delete:
+      tags:
+      - carts
+      summary: deletes user's current cart
+      description: clears cart-items from cart and deletes cart
+      operationId: deleteCartByUserId
+      parameters:
+      - name: userId
+        in: path
+        description: user of the cart to be deleted
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              type: string
+              x-content-type: application/json
+      - name: cartId
+        in: query
+        description: id of cart to be delete
+        required: true
+        style: form
+        explode: true
+        content:
+          application/json:
+            schema:
+              type: integer
+              x-content-type: application/json
+      responses:
+        "200":
+          description: 200 - cart deleted
+        "500":
+          description: 500 - internal server error
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+  /carts/user/items:
+    post:
+      tags:
+      - carts
+      summary: add items to cart
+      description: add cart-item objects to cart object
+      operationId: addCartItems
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartItem'
+      responses:
+        "200":
+          description: 200 - item added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        "404":
+          description: 404 -  item not added
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotFound
+      x-swagger-router-controller: Carts
+  /carts/user/{cartItemId}:
+    put:
+      tags:
+      - carts
+      summary: update cart-item to cart
+      description: update cart-item objects in cart object
+      operationId: updateCartItem
+      parameters:
+      - name: cartItemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              type: integer
+              x-content-type: application/json
+      responses:
+        "200":
+          description: 200 - item added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItem'
+        "404":
+          description: 404 -  item not added
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotFound
+      x-swagger-router-controller: Carts
+    delete:
+      tags:
+      - carts
+      summary: delete item from cart
+      description: remove cart-item objects from cart object
+      operationId: removeCartItem
+      parameters:
+      - name: cartItemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              type: integer
+              x-content-type: application/json
+      responses:
+        "200":
+          description: 200 - item added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartItem'
+        "404":
+          description: 404 -  item not added
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/responses/NotFound
+      x-swagger-router-controller: Carts
+  /carts/user/checkout:
+    post:
+      tags:
+      - carts
+      summary: creates an order
+      description: creates an order object out of cart object
+      operationId: createOrder
+      requestBody:
+        description: order object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderModel'
+      responses:
+        "200":
+          description: 200 - Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderModel'
+        "404":
+          description: 404 - Order Not Created
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Carts
+  /orders/user/items/{orderItemId}:
+    put:
+      tags:
+      - orders
+      summary: update an item in order
+      description: updates an orderItem object in cart
+      operationId: updateOrderItem
+      parameters:
+      - name: orderItemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItemModel/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItemModel'
+      responses:
+        "200":
+          description: 200 - Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderModel'
+                x-content-type: application/json
+        "404":
+          description: 404 - Order Not Created
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Orders
+    delete:
+      tags:
+      - orders
+      summary: deletes an item in order
+      description: remove an orderItem object in cart
+      operationId: deleteOrderItem
+      parameters:
+      - name: orderItemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderItemModel/properties/id'
+      responses:
+        "200":
+          description: 200 - Success
+        "404":
+          description: 404 - Order Not Created
+          content:
+            application/json:
+              schema:
+                $ref: https://api.swaggerhub.com/domains/holtenterprises/Ecommerce_Models/1.0#/definitions/ErrorModel
+      x-swagger-router-controller: Orders
+components:
+  schemas:
+    User:
+      required:
+      - password
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+          example: newTestUser
+        password:
+          type: string
+          format: password
+          example: passWord!
+        id:
+          type: string
+          format: uuid
+        first_name:
+          type: string
+          example: User
+        last_name:
+          type: string
+          example: Test
+        address:
+          type: string
+          example: 123 E. Main
+        address_2:
+          type: string
+          example: apt 905
+        city:
+          type: string
+          example: Wichita
+        state:
+          type: string
+          example: Kansas
+        zipCode:
+          type: integer
+          example: 67206
+        role:
+          type: string
+          enum:
+          - admin
+          - user
+      example:
+        zipCode: 67206
+        password: passWord!
+        address: 123 E. Main
+        role: admin
+        city: Wichita
+        address_2: apt 905
+        last_name: Test
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        state: Kansas
+        first_name: User
+        username: newTestUser
+    Product:
+      required:
+      - description
+      - id
+      - price
+      - product_name
+      - vendor
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 83
+        product_name:
+          type: string
+          example: Automatic Tennis Ball Launcher
+        vendor:
+          $ref: '#/components/schemas/Vendor/properties/id'
+        price:
+          type: integer
+          format: float
+        desciption:
+          type: string
+          example: 'An automatic tennis ball launcher that allows our fur baby to
+            play a game by themselves by launching a tennis ball '
+      example:
+        desciption: 'An automatic tennis ball launcher that allows our fur baby to
+          play a game by themselves by launching a tennis ball '
+        vendor: "{}"
+        price: 0
+        id: 83
+        product_name: Automatic Tennis Ball Launcher
+    Vendor:
+      required:
+      - id
+      - vendor_name
+      type: object
+      properties:
+        id:
+          type: string
+          example: PupFav001
+        vendor_name:
+          type: string
+          example: Puppies Favorite
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catergories'
+        vendor_products:
+          $ref: '#/components/schemas/Vendor_Products'
+    Catergories:
+      required:
+      - catergory
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        catergory:
+          type: string
+          example: Puppy Toys
+    Vendor_Products:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    Cart:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userid:
+          $ref: '#/components/schemas/User/properties/id'
+        cartItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        total:
+          type: integer
+          format: float
+        created:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+      example:
+        total: 5
+        created: 2000-01-23T04:56:07.000+00:00
+        modified: 2000-01-23T04:56:07.000+00:00
+        id: 1
+        cartItems:
+        - productId: 1
+          cartId: 6
+          id: 1
+        - productId: 1
+          cartId: 6
+          id: 1
+        userid: 0
+    CartItem:
+      required:
+      - cartId
+      - id
+      - productId
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        cartId:
+          $ref: '#/components/schemas/Cart/properties/id'
+        productId:
+          $ref: '#/components/schemas/Product/properties/id'
+      example:
+        productId: 1
+        cartId: 6
+        id: 1
+    OrderModel:
+      required:
+      - cartId
+      - city
+      - id
+      - items
+      - paymentInfo
+      - shippingAddress1
+      - shippingAddress2
+      - state
+      - status
+      - total
+      - userId
+      - zipcode
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          $ref: '#/components/schemas/User/properties/id'
+        cartId:
+          $ref: '#/components/schemas/Cart/properties/id'
+        shippingAddress1:
+          type: string
+        shippingAddress2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zipcode:
+          type: integer
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemModel'
+        total:
+          type: integer
+          format: float
+        paymentInfo:
+          $ref: '#/components/schemas/PaymentModel'
+        status:
+          type: string
+          enum:
+          - Approved
+          - Shipped
+          - Delivered
+        complete:
+          type: boolean
+          default: false
+      example:
+        city: city
+        cartId: "{}"
+        shippingAddress2: shippingAddress2
+        shippingAddress1: shippingAddress1
+        userId: "{}"
+        orderItems:
+        - total: 5
+          quantity: 5
+          productId: "{}"
+          orderId: "{}"
+          price: "{}"
+          id: 1
+          productName: "{}"
+        - total: 5
+          quantity: 5
+          productId: "{}"
+          orderId: "{}"
+          price: "{}"
+          id: 1
+          productName: "{}"
+        zipcode: 6
+        total: 2
+        id: 0
+        state: state
+        complete: false
+        paymentInfo:
+          zipcode: 3
+          recieptId: 9
+          cardNum: cardNum
+          total: 2
+          orderId: null
+          cardType: Visa
+          id: 7
+          expDate: 2000-01-23
+          status: Approved
+        status: Approved
+    OrderItemModel:
+      required:
+      - id
+      - inventoryId
+      - orderid
+      - price
+      - productName
+      - quantity
+      - total
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        productId:
+          $ref: '#/components/schemas/Product/properties/id'
+        price:
+          $ref: '#/components/schemas/Product/properties/price'
+        quantity:
+          type: integer
+        productName:
+          $ref: '#/components/schemas/Product/properties/product_name'
+        orderId:
+          $ref: '#/components/schemas/OrderModel/properties/id'
+        total:
+          type: integer
+          format: float
+      example:
+        total: 5
+        quantity: 5
+        productId: "{}"
+        orderId: "{}"
+        price: "{}"
+        id: 1
+        productName: "{}"
+    PaymentModel:
+      required:
+      - cardNum
+      - cardType
+      - expDate
+      - id
+      - orderId
+      - recieptId
+      - status
+      - total
+      - zipcode
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        recieptId:
+          type: integer
+          format: int32
+        orderId:
+          $ref: '#/components/schemas/OrderModel/properties/id'
+        cardType:
+          type: string
+          enum:
+          - Visa
+          - MasterCard
+          - Discover
+          - American Express
+        cardNum:
+          type: string
+          format: int16
+        expDate:
+          type: string
+          format: date
+        status:
+          type: string
+          enum:
+          - Approved
+          - Declined-Expired
+          - Declinded-Invalid Information
+          - Declinded- Payment Method Failed
+        zipcode:
+          type: integer
+        total:
+          type: integer
+          format: float
+      example:
+        zipcode: 3
+        recieptId: 9
+        cardNum: cardNum
+        total: 2
+        orderId: null
+        cardType: Visa
+        id: 7
+        expDate: 2000-01-23
+        status: Approved
+    UserOrdersModel:
+      required:
+      - orders
+      - userId
+      properties:
+        userId:
+          $ref: '#/components/schemas/User/properties/id'
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderModel'
+    ErrorModel:
+      required:
+      - code
+      - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  parameters:
+    username:
+      name: username
+      in: path
+      description: user's username
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/User/properties/username'
+    password:
+      name: password
+      in: path
+      description: users password
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/User/properties/password'
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
